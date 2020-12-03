@@ -6,24 +6,23 @@ def read_inputs():
 
 
 def part1(values):
-    others = set(values)  # set() works here because there are no duplicates
+    seen = set()
     for i in values:
-        others.remove(i)
-        if (j := 2020 - i) in others:
+        if (j := 2020 - i) in seen:
             # print(f"{i} * {j} = {i * j}")
             return i * j
+        seen.add(i)
 
 
 def part2(values):
-    others = set(values)
-    for i in values:
-        others.remove(i)
-        for j in others:
-            others.remove(j)
-            if (k := 2020 - i - j) in others:
-                # print(f"{i} * {j} * {k} = {i * j * k}")
-                return i * j * k
-            others.add(j)
+    seen = set()
+    for i in range(len(values)):
+        for j in range(i, len(values)):
+            if (k := 2020 - values[i] - values[j]) in seen:
+                # print(f"{values[i]} * {values[j]} * {k} = {values[i] * values[j] * k}")
+                return values[i] * values[j] * k
+            seen.add(values[j])
+        seen = set()
 
 
 def main():
